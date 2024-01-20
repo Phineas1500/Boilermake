@@ -1,5 +1,6 @@
 // client/src/App.js
 import React, { useState, useEffect } from 'react';
+import io from 'socket.io-client';
 import {
   BrowserRouter as Router,
   Routes,
@@ -7,6 +8,8 @@ import {
 } from 'react-router-dom';
 import StockComponent from './StockComponent';
 import TradeScreenComponent from './TradeScreenComponent';
+
+const socket = io('http://localhost:3000'); // Initialize the socket connection
 
 function App() {
   const [stocks, setStocks] = useState({});
@@ -61,11 +64,19 @@ function App() {
   
   
   useEffect(() => {
-    // Fetch the stock data from your server when the component mounts
+    // Fetch initial stock data from the server
     fetch('http://localhost:3000/stocks')
       .then(response => response.json())
       .then(data => setStocks(data))
       .catch(error => console.error('Error fetching stocks:', error));
+
+    // Listen for 'price update' events from the server
+    socket.on('price update', updatedStocks => {
+      setStocks(updatedStocks);
+    });
+
+    // Clean up the effect
+    return () => socket.off('price update');
   }, []);
 
   return (
