@@ -6,7 +6,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthState
 export const registerUser = async (email, password) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    return userCredential.user;
+    return userCredential;
   } catch (error) {
     console.error("Error registering new user:", error);
     throw error;

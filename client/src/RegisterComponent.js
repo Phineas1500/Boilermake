@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { registerUser } from './authService'; // Import the registerUser function
+import { saveUserProfile } from './userService'; // Import the createUserProfile function
 
 const RegisterComponent = () => {
   const [email, setEmail] = useState('');
@@ -12,8 +13,19 @@ const RegisterComponent = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await registerUser(email, password);
-      // Handle successful registration (e.g., redirect to login page)
+      // Register user with Firebase Auth
+      const userCredential = await registerUser(email, password);
+      console.log('UserCredential:', userCredential);
+      const user = userCredential.user;
+      console.log(user);
+
+      // Create a new profile in Firestore for the registered user
+      await saveUserProfile(user.uid, {
+        balance: 100000, // Initial balance
+        portfolio: {} // Initial empty portfolio
+      });
+
+      // Redirect to login page after successful registration
       navigate('/login');
     } catch (error) {
       // Handle registration errors (e.g., display an error message)
