@@ -77,6 +77,11 @@ app.get('/', (req, res) => {
     res.send('Welcome to the Stock Market Simulator!');
 });
 
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
+
 // Start the server
 server.listen(port, () => {
     console.log(`Server listening at http://localhost:${port}`);

@@ -5,8 +5,8 @@ const TradeScreenComponent = ({ stocks }) => {
     const { stockSymbol } = useParams();
     const [quantity, setQuantity] = useState(0);
 
-    console.log(stocks); // Debug: Check the stocks object
-    console.log(stockSymbol); // Debug: Check the stock symbol
+    console.log("Stocks:", stocks);
+    console.log("Stock Symbol:", stockSymbol);
 
     const stock = stocks[stockSymbol];
     if (!stock) {

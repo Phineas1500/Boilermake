@@ -27,7 +27,7 @@ export default App;*/
 // client/src/App.js
 // client/src/App.js
 // client/src/App.js
-import React, { useState } from 'react'; // Make sure to import useState
+import React, { useState, useEffect } from 'react'; // Make sure to import useState and useEffect
 import {
   BrowserRouter as Router,
   Routes, // Replace 'Switch' with 'Routes'
@@ -38,6 +38,17 @@ import TradeScreenComponent from './TradeScreenComponent';
 
 function App() {
   const [stocks, setStocks] = useState({}); // You may want to lift the stocks state up to here
+
+  useEffect(() => {
+    // Fetch the stock data from your server when the component mounts
+    fetch('http://localhost:3000/stocks')
+      .then(response => response.json())
+      .then(data => {
+        setStocks(data);
+        console.log(stocks);
+      })
+      .catch(error => console.error('Error fetching stocks:', error));
+  }, []); // The empty array ensures this effect runs only once
 
   return (
     <Router>
