@@ -35,6 +35,7 @@ const TradeScreenComponent = ({ stocks, balance, buyStock, sellStock }) => {
     <div>
       <button onClick={() => navigate(-1)}>Back</button> {/* This button will take you back */}
       <h1>Trade {stock.name}</h1>
+      <p>Category: {stock.category}</p> {/* Displaying the category */}
       <p>Current Price: ${stock.price.toFixed(2)}</p>
       <p>Current Balance: ${balance.toFixed(2)}</p>
       <input

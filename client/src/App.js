@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import StockComponent from './StockComponent';
 import TradeScreenComponent from './TradeScreenComponent';
+import ProfileComponent from './ProfileComponent';
 
 const socket = io('http://localhost:3000'); // Initialize the socket connection
 
@@ -85,6 +86,7 @@ function App() {
         <Routes>
           <Route path="/" element={<StockComponent stocks={stocks} balance={balance} portfolio={portfolio} />} />
           <Route path="/trade/:stockSymbol" element={<TradeScreenComponent stocks={stocks} balance={balance} buyStock={buyStock} sellStock={sellStock} />} />
+          <Route path="/profile" element={<ProfileComponent portfolio={portfolio} stocks={stocks} balance={balance} />} />
         </Routes>
       </div>
     </Router>

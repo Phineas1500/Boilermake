@@ -1,18 +1,17 @@
-// client/src/StockComponent.js
-import React, { useEffect } from 'react'; // Removed useState since it's no longer used
+import React, { useEffect } from 'react';
 import io from 'socket.io-client';
+import { Link } from 'react-router-dom';
 import BalanceComponent from './BalanceComponent';
 import TradeButtonComponent from './TradeButtonComponent';
 
 const socket = io('http://localhost:3000'); // Connect to your server
 
-const StockComponent = ({ stocks, balance }) => { // Accept stocks and balance as props
+const StockComponent = ({ stocks, balance }) => {
 
     useEffect(() => {
         // Listen for 'price update' events from the server
         socket.on('price update', updatedStocks => {
-            // Update the stocks from the App.js state
-            // NOTE: If App.js does not handle this update, you need to lift the state up to App.js
+            // Handle the stock updates here if needed
         });
 
         // Clean up the effect
@@ -22,6 +21,7 @@ const StockComponent = ({ stocks, balance }) => { // Accept stocks and balance a
     return (
         <div>
             <h1>Stock Market Simulator</h1>
+            <Link to="/profile">View Profile</Link> {/* Add the link to the profile page here */}
             <BalanceComponent balance={balance} />
             <div id="stocks">
                 {Object.entries(stocks).map(([symbol, stockInfo]) => (

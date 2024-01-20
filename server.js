@@ -16,9 +16,9 @@ app.use(cors()); // Use CORS middleware
 
 // Mock stock data
 let stocks = {
-    'AAPL': { name: 'Apple Inc.', price: 150 },
-    'MSFT': { name: 'Microsoft Corp.', price: 250 },
-    'GOOGL': { name: 'Alphabet Inc.', price: 2800 }
+    'CRNB': { name: 'Cranberry Inc.', price: 150, category: 'Consumer Tech' },
+    'MCH': { name: 'McHenry\'s Corp.', price: 300, category: 'Fast Food' },
+    'QTR': { name: 'Quitter Inc.', price: 45, category: 'Social Media' }
 };
 
 // Function to update stock prices randomly
