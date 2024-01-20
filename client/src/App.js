@@ -6,16 +6,23 @@ import {
   Routes,
   Route
 } from 'react-router-dom';
+import { getAuth, onAuthStateChanged } from "firebase/auth"; // Import Firebase authentication methods
 import StockComponent from './StockComponent';
 import TradeScreenComponent from './TradeScreenComponent';
 import ProfileComponent from './ProfileComponent';
+import RegisterComponent from './RegisterComponent';
+import LoginComponent from './LoginComponent';
+import ProtectedRoute from './ProtectedRoute'; // Import ProtectedRoute
+import LandingPage from './LandingPage'; // Import the LandingPage component
 
 const socket = io('http://localhost:3000'); // Initialize the socket connection
+const auth = getAuth(); // Initialize Firebase Auth
 
 function App() {
   const [stocks, setStocks] = useState({});
   const [balance, setBalance] = useState(100000); // User's starting balance
   const [portfolio, setPortfolio] = useState({}); // User's stock portfolio
+  const [user, setUser] = useState(null); // State to track user authentication
 
   const buyStock = (stockSymbol, quantity, price) => {
     const cost = quantity * price;
@@ -65,6 +72,17 @@ function App() {
   
   
   useEffect(() => {
+    // Subscribe to auth state changes
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      console.log("Auth state changed:", currentUser); // Log the current user
+      if (currentUser) {
+        // If a user is logged in, update the state
+        setUser(currentUser);
+      } else {
+        // No user is logged in
+        setUser(null);
+      }
+    });
     // Fetch initial stock data from the server
     fetch('http://localhost:3000/stocks')
       .then(response => response.json())
@@ -76,17 +94,35 @@ function App() {
       setStocks(updatedStocks);
     });
 
-    // Clean up the effect
-    return () => socket.off('price update');
+    // Return a function to unsubscribe from the listener when the component unmounts
+    return () => {
+      unsubscribe();
+      socket.off('price update');
+    };
   }, []);
 
   return (
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/" element={<StockComponent stocks={stocks} balance={balance} portfolio={portfolio} />} />
-          <Route path="/trade/:stockSymbol" element={<TradeScreenComponent stocks={stocks} balance={balance} buyStock={buyStock} sellStock={sellStock} />} />
-          <Route path="/profile" element={<ProfileComponent portfolio={portfolio} stocks={stocks} balance={balance} />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/register" element={<RegisterComponent />} />
+          <Route path="/login" element={<LoginComponent setUser={setUser} />} /> {/* Pass setUser to LoginComponent */}
+          <Route path="/stocks" element={
+            <ProtectedRoute user={user}>
+              <StockComponent stocks={stocks} balance={balance} portfolio={portfolio} />
+            </ProtectedRoute>
+          } />
+          <Route path="/trade/:stockSymbol" element={
+            <ProtectedRoute user={user}>
+              <TradeScreenComponent stocks={stocks} balance={balance} buyStock={buyStock} sellStock={sellStock} />
+            </ProtectedRoute>
+          } />
+          <Route path="/profile" element={
+            <ProtectedRoute user={user}>
+              <ProfileComponent portfolio={portfolio} stocks={stocks} balance={balance} />
+            </ProtectedRoute>
+          } />
         </Routes>
       </div>
     </Router>
