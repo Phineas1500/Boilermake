@@ -1,0 +1,54 @@
+/* TradeScreenComponent.css */
+.trade-container {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .trade-container h1 {
+    margin-bottom: 20px;
+  }
+  
+  .trade-info {
+    margin: 10px 0;
+    font-size: 1.2em;
+  }
+  
+  .input-quantity {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+  }
+  
+  .trade-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .trade-buttons button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    margin: 0 10px;
+  }
+  
+  .trade-buttons button:hover {
+    background-color: #0056b3;
+  }
+  
+  .back-button {
+    background-color: #6c757d;
+  }
+  
+  .back-button:hover {
+    background-color: #5a6268;
+  }
+  

@@ -1,9 +1,11 @@
+// StockComponent.js
 import React, { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 import { Link, useNavigate } from 'react-router-dom';
 import { getAuth, signOut } from "firebase/auth";
 import BalanceComponent from './BalanceComponent';
 import TradeButtonComponent from './TradeButtonComponent';
+import './StockComponent.css'; // Import the CSS file
 
 const socket = io('http://localhost:3000');
 
@@ -47,22 +49,27 @@ const StockComponent = ({ stocks, balance, setUser }) => {
     }, []);
 
     return (
-        <div>
+        <div className="stock-container">
             <h1>Stock Market Simulator</h1>
-            <Link to="/profile">View Profile</Link>
-            <button onClick={handleLogout}>Logout</button>
+            <div className="links">
+              <Link to="/profile">View Profile</Link>
+              <button onClick={handleLogout}>Logout</button>
+              <Link to="/news">View News</Link>
+            </div>
             <BalanceComponent balance={balance} />
             <div id="stocks">
                 {Object.entries(stocks).map(([symbol, stockInfo]) => (
-                    <div key={symbol}>
+                    <div key={symbol} className="stock-item">
                         <p>{`${symbol}: ${stockInfo.name} - $${stockInfo.price.toFixed(2)}`}</p>
                         <TradeButtonComponent stockSymbol={symbol} />
-                        <p>Headline: {headlines[stockInfo.name]}</p>
+                        <p className="stock-headline">Headline: {headlines[stockInfo.name]}</p>
                     </div>
                 ))}
             </div>
         </div>
     );
+    
+    
 };
 
 export default StockComponent;

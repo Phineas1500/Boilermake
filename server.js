@@ -142,7 +142,7 @@ async function saveHeadlinesToFirestore(headlines) {
 
 // Initialize OpenAI with your API key
 const openai = new OpenAI({
-  apiKey: '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',
+  apiKey: 'sk-',
 });
 //const openai = new OpenAIApi(new Configuration({
 //  apiKey: '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'
@@ -276,7 +276,18 @@ cron.schedule('*/5 * * * *', () => {
     });
 });
 
-  
+const fetchAllHeadlines = async () => {
+    const headlinesRef = db.collection('headlines');
+    const querySnapshot = await headlinesRef.orderBy('timestamp', 'desc').get();
+    const headlines = [];
+    querySnapshot.forEach(doc => {
+        headlines.push(doc.data());
+    });
+    return headlines;
+};
+
+module.exports = { fetchAllHeadlines };
+
 
 
 async function initializeServer() {
@@ -349,6 +360,17 @@ async function initializeServer() {
   app.get('/', (req, res) => {
     res.send('Welcome to the Stock Market Simulator!');
   });
+
+  app.get('/api/headlines', async (req, res) => {
+    try {
+        const headlines = await fetchAllHeadlines();
+        res.json(headlines);
+    } catch (error) {
+        console.error("Error fetching headlines:", error);
+        res.status(500).json({ error: error.message });
+    }
+  });
+
 
   app.use((err, req, res, next) => {
     console.error(err.stack);

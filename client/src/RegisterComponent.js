@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { registerUser } from './authService'; // Import the registerUser function
 import { saveUserProfile } from './userService'; // Import the createUserProfile function
+import './RegisterComponent.css'; // Import the CSS file
 
 const RegisterComponent = () => {
   const [email, setEmail] = useState('');
@@ -34,10 +35,10 @@ const RegisterComponent = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="register-form">
       <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
       <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
-      {error && <p>{error}</p>} {/* Display error message */}
+      {error && <p>{error}</p>}
       <button type="submit">Register</button>
       <button type="button" onClick={() => navigate('/')}>Back</button>
     </form>

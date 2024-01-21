@@ -1,7 +1,8 @@
 // LoginComponent.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from './authService'; // Import the loginUser function
+import { loginUser } from './authService';
+import './LoginComponent.css'; // Import the CSS file
 
 const LoginComponent = ({ setUser }) => {
   const [email, setEmail] = useState('');
@@ -24,7 +25,7 @@ const LoginComponent = ({ setUser }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="login-form">
       <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
       <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
       {error && <p>{error}</p>}

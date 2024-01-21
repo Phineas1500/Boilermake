@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from "firebase/auth"; // Import Firebase authentication methods
 import StockComponent from './StockComponent';
+import NewsPage from './NewsPage';
 import TradeScreenComponent from './TradeScreenComponent';
 import ProfileComponent from './ProfileComponent';
 import RegisterComponent from './RegisterComponent';
@@ -146,6 +147,7 @@ function App() {
               <StockComponent stocks={stocks} balance={balance} portfolio={portfolio} />
             </ProtectedRoute>
           } />
+          <Route path="/news" component={NewsPage} />
           <Route path="/trade/:stockSymbol" element={
             <ProtectedRoute user={user}>
               <TradeScreenComponent stocks={stocks} balance={balance} buyStock={buyStock} sellStock={sellStock} />

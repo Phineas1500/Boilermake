@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import './ProfileComponent.css'; // Import the CSS file
 
 const ProfileComponent = ({ portfolio, stocks, balance }) => {
   const navigate = useNavigate();
@@ -17,11 +18,13 @@ const ProfileComponent = ({ portfolio, stocks, balance }) => {
   });
 
   return (
-    <div>
-      <button onClick={() => navigate(-1)}>Back</button> {/* Back button */}
+    <div className="profile-container">
+      <button className="back-button" onClick={() => navigate(-1)}>Back</button> {/* Styled back button */}
       <h1>User Portfolio</h1>
       <h2>Holdings:</h2>
-      <ul>{portfolioItems}</ul>
+      <ul className="portfolio-items">
+        {portfolioItems}
+      </ul>
       <h2>Total Portfolio Value: ${portfolioValue.toFixed(2)}</h2>
       <h2>Cash Balance: ${balance.toFixed(2)}</h2>
     </div>
